@@ -133,8 +133,11 @@ def main():
     # Define the codec and create VideoWriter object
     fourcc = cv2.VideoWriter_fourcc(*'DIVX')
     out_videoname = 'output_' + args.tracker + '.mkv'
-    out_videopath = os.path.join(os.getcwd(), "Output", out_videoname)
-    out = cv2.VideoWriter(out_videopath, fourcc, 24.0, (1920, 1080))
+    out_videopath = os.path.join(os.getcwd(), "Output")
+    if not os.path.isdir(out_videopath):
+        os.mkdir(out_videopath)
+        
+    out = cv2.VideoWriter(os.path.join(out_videopath,out_videoname), fourcc, 24.0, (1920, 1080))
     # create object tracking
     print("3 of 8 step: Creating multitracker object.")
     multitrack = Tracking(args.tracker)

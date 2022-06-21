@@ -93,12 +93,12 @@ def main():
         "-i",
         '--input_video',
         type=str,
-        default=r'Inputs\\input.mkv',
+        default='Inputs\\input.mkv',
         help="path to input video")
     parser.add_argument(
         "-json",
         '--json_file',
-        default=r'Inputs\\initial_conditions.json',
+        default='Inputs\\initial_conditions.json',
         help="path to input json file")
     parser.add_argument(
         "-t",

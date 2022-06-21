@@ -39,11 +39,11 @@ $ docker build --tag EpicIO_tracker .
 run
 ```sh
 $ cd /workspaces/EpicIO_Tracker
-$ python3 main.py  -- input_video path/to/video -- json_file path/to/json_file --tracker KCF 
+$ python3 main.py --input_video Inputs\input.mkv --json_file Inputs/initial_conditions.json --tracker KCF 
 ```
 or
 ```sh
-$ python3 main.py -- input_video path/to/video -- json_file path/to/json_file  --tracker CSRT
+$ python3 main.py --input_video Inputs\input.mkv --json_file Inputs/initial_conditions.json  --tracker CSRT
 ```
 
 

@@ -1,6 +1,7 @@
 
 import argparse
 import json
+import os
 import time
 import cv2
 import numpy as np
@@ -71,8 +72,9 @@ class Tracking():
                 cv2.putText(frame, "Ground truth", (75, 75),
                             cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0, 0, 255), 2)
             else:
-                cv2.putText(frame, "Tracking players", (75, 75),
-                            cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0, 225, 0), 2)
+                cv2.putText(
+                    frame, "Tracking players:{}".format(
+                        self.tracker), (75, 75), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0, 225, 0), 2)
 
             cv2.putText(
                 frame, "Player id:{}".format(
@@ -91,12 +93,12 @@ def main():
         "-i",
         '--input_video',
         type=str,
-        default='input.mkv',
+        default=r'Inputs\\input.mkv',
         help="path to input video")
     parser.add_argument(
         "-json",
         '--json_file',
-        default='initial_conditions.json',
+        default=r'Inputs\\initial_conditions.json',
         help="path to input json file")
     parser.add_argument(
         "-t",
@@ -107,17 +109,34 @@ def main():
         default="KCF",
         help="Choose Opencv tracker")
     args = parser.parse_args()
-    print("1 step: Reading inputs:", args.json_file, ",", args.input_video)
-    print("2 step: Chose OpenCV tracker:", args.tracker)
+    print(
+        "1 of 8 step: Reading inputs:",
+        args.json_file,
+        ",",
+        args.input_video)
+    print("2 of 8 step: Chose OpenCV tracker:", args.tracker)
     # Reading inputs
-    cap = cv2.VideoCapture(args.input_video)
-    with open(args.json_file, 'r') as f:
-        initial_conditions = json.load(f)
+    input_video_extension = os.path.splitext(args.input_video)[1]
+    if input_video_extension in ['.mkv', '.avi', '.mp4', '.mov']:
+        cap = cv2.VideoCapture(args.input_video)
+    else:
+        raise Exception(
+            "{} format not supported. Is video?".format(input_video_extension))
+
+    input_jsonfile_extension = os.path.splitext(args.json_file)[1]
+    if input_jsonfile_extension == ".json":
+        with open(args.json_file, 'r') as f:
+            initial_conditions = json.load(f)
+    else:
+        raise Exception(
+            "{} format not supported. Is json file?".format(input_jsonfile_extension))
     # Define the codec and create VideoWriter object
     fourcc = cv2.VideoWriter_fourcc(*'DIVX')
-    out = cv2.VideoWriter('output.mkv', fourcc, 24.0, (1920, 1080))
+    out_videoname = 'output_' + args.tracker + '.mkv'
+    out_videopath = os.path.join(os.getcwd(), "Output", out_videoname)
+    out = cv2.VideoWriter(out_videopath, fourcc, 24.0, (1920, 1080))
     # create object tracking
-    print("3 step: Creating multitracker object.")
+    print("3 of 8 step: Creating multitracker object.")
     multitrack = Tracking(args.tracker)
     # used to record the time when we processed last frame
     prev_frame_time = 0
@@ -130,12 +149,12 @@ def main():
         if ret:
             if multitrack.first_frame:
                 print("Video started")
-                print("4 step: Initializing chosen tracker.")
+                print("4 of 8 step: Initializing chosen tracker.")
                 multitrack.init_trackers(initial_conditions, frame)
-                print("5 step: Drawing bboxes as ground truth.")
+                print("5 of 8 step: Drawing bboxes as ground truth.")
                 out_frame = multitrack.draw_boxes(frame, initial_conditions)
                 multitrack.first_frame = False
-                print("6 step: Update tracker over frames.")
+                print("6 of 8 step: Update tracker over frames.")
             else:
                 current_conditions = multitrack.update_trackers(frame)
                 out_frame = multitrack.draw_boxes(frame, current_conditions)
@@ -152,10 +171,10 @@ def main():
         if cv2.waitKey(1) == ord('q'):
             break
     print(
-        "7 step: Compute output video FPS:{}(Frames per second).".format(
+        "7 of 8 step: Compute output video FPS:{}(Frames per second).".format(
             round(
                 np.mean(fps_list))))
-    print("8 step: Create output video file.")
+    print("8 of 8 step: Create output video file.")
 
     # Release everything if job is finished
     cap.release()

@@ -1,0 +1,19 @@
+{
+	"name": "EpicIO container",
+	"build":{
+		"context": "..",
+		"dockerfile": "Dockerfile"
+		} ,
+		//C:\Users\Andres Hernandez\Escritorio\ReconoSER ID\Databases
+	//"mounts": ["source=C:\\Users\\Andres Hernandez\\Escritorio\\ReconoSER ID\\Databases,target=/usr/local/share/databases,type=bind,consistency=cached"],
+	//"containerUser": "ahdez",
+	//"workspaceMount": "source=${localWorkspaceFolder},target=/workspace,type=bind,consistency=cached",
+	//"workspaceFolder": "/workspace",
+	"extensions": [
+		"ms-python.python",
+		"grapecity.gc-excelviewer",
+		"pkief.material-icon-theme",
+		"2gua.rainbow-brackets",
+		"ms-vsliveshare.vsliveshare"
+		]
+}

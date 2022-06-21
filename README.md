@@ -46,5 +46,5 @@ or
 $ python3 main.py --input_video Inputs\input.mkv --json_file Inputs/initial_conditions.json  --tracker CSRT
 ```
 
-
+Nota: Si el usuario quiere experimentar con otro video y otro archivo json de entrada, estos deben estar dentro de la carpeta Input.
 

@@ -1,4 +1,4 @@
-# EpicIO_Tracker
+# OpenCV_Trackers
 
 Este repositorio contiene una implementación de un sistema de tracking para un video de entrada dado. 
 

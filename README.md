@@ -14,7 +14,7 @@ Para conseguir este objetivo, se aceptan como parámetros de entrada un video qu
 
 La salida del algoritmo es un video donde se muestra en cada frame los objetos seguidos. Para mostrar dicho seguimiento se dibujará un rectángulo contenedor sobre cada objeto seguido como se observa en el video inicial de este repositorio. 
 
-### Solucion propuesta
+### Pipeline
 
 Para implementar un sistema como el descrito en la sección anterior se desarrollan los siguientes pasos:
 
